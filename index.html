@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Zen+Antique+Soft&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<style>
+  * {
+    margin: auto;
+    font-family: 'Roboto Mono', serif;
+  }
+
+  body {
+    background: url(./resource/body.jpg);
+    transform: rotate3d();
+  }
+
+  .home {
+    width: 419px;
+    height: 120px;
+    background: url(./resource/home.jpg);
+  }
+
+  .hide {
+    visibility: hidden;
+  }
+
+  input {
+    border-radius: 10px;
+    background-color: rgb(255, 252, 80);
+    margin: 10px;
+    box-shadow: 0.1em 0.1em 0.2em black;
+  }
+
+  #game {
+    width: 800px;
+    height: 700px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin-top: 10px;
+    position: relative;
+    background-color: rgb(216, 216, 216);
+  }
+
+  #view {
+    width: 760px;
+    height: 400px;
+    padding: 0;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: -180px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #password {
+    display: flex;
+    width: 400px;
+    flex-wrap: wrap;
+    padding-top: 100px;
+  }
+
+  .pw {
+    width: 60px;
+    height: 35px;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+  }
+
+  .pw:hover {
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+  }
+
+  input:hover {
+    filter: hue-rotate(180deg);
+  }
+
+  #right {
+    width: 350px;
+    text-align: center;
+    font-size: 1.3rem;
+    margin-left: 5px;
+    margin-bottom: 80px;
+  }
+
+  #right input {
+    width: 57.61px;
+    height: 33px;
+    font-size: 1.1rem;
+    background-color: rgb(214, 40, 40);
+    color: white;
+  }
+
+  #right input:nth-child(3) {
+    background-color: rgb(75, 179, 97);
+  }
+
+  #right input:hover {
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+  }
+
+  #pw {
+    display: inline-block;
+    width: 338px;
+    height: 2rem;
+    overflow: hidden;
+    letter-spacing: 10px;
+    margin-left: -5px;
+    color: rgb(221, 17, 17);
+    font-size: 1.3rem;
+    text-shadow: .1em .1em .1em rgb(255, 255, 255);
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    margin-left: -15px;
+    padding-left: 5px;
+  }
+
+  .box {
+    text-align: center;
+    font-size: 5rem;
+    height: 130px;
+    width: 130px;
+    line-height: 130px;
+    background-color: cornflowerblue;
+    transition: transform .5s;
+    transform: rotateY(180deg);
+    border-radius: 10px;
+    border: 5px outset rgb(32, 102, 231);
+    box-sizing: border-box;
+    color: white;
+  }
+
+  #hint {
+    position: absolute;
+    top: 5%;
+    left: 45%;
+    z-index: -1;
+  }
+
+  .t1 {
+    background: url(./resource/1.png)no-repeat center/cover;
+  }
+
+  .t2 {
+    background: url(./resource/2.png)no-repeat center/cover;
+  }
+
+  .t3 {
+    background: url(./resource/3.png)no-repeat center/cover;
+  }
+
+  #show {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.815);
+    position: absolute;
+    z-index: 99;
+    text-shadow: 1rem 1rem 2rem black;
+  }
+
+  #ts {
+    position: absolute;
+    left: 50%;
+    font-size: 33rem;
+    color: white;
+    transform: translateX(-50%);
+  }
+
+  .spin {
+    transform: rotateY(360deg);
+  }
+
+  .swal2-x-mark {
+    height: 80px;
+  }
+
+  #show input:nth-child(1) {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 350px;
+    font-size: 2rem;
+    transform: translateX(-52%);
+    background-color: rgb(75, 179, 97);
+    color: white;
+  }
+
+  #show input:nth-child(2) {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: 350px;
+    font-size: 2rem;
+    transform: translateX(-52%);
+    background-color: rgb(165, 10, 10);
+    color: white;
+  }
+</style>
+
+<body>
+
+  <div id="show">
+    <input type="button" value="簡單模式(無大小寫)" id="softcore">
+    <input type="button" value="困難模式" id="hardcore">
+    <span id="ts"></span>
+  </div>
+
+  <div class="home"></div>
+  <p id="hint"></p>
+
+  <div id="game">
+    <div id="view"></div>
+    <p
+      style="text-align:left;font-size: 2rem;color: white;text-shadow: 0.1em 0.1em 0.2em black;position: absolute;top: 433px;left: 40px;">
+      Keyboard:</p>
+    <div id="password"></div>
+    <div id="right">
+      <p
+        style="text-align:left;margin-bottom:20px;font-size: 2rem;color: white;text-shadow: 0.1em 0.1em 0.2em black;margin-left: 20px;">
+        Ans:<br><span id="pw"></span></p>
+      <input type="button" value="清除" id="clear">
+      <input type="button" value="確認" id="check">
+      <p style="text-shadow: 0.1em 0.1em 0.2em rgb(255, 255, 255)">嘗試次數:<span id="num">0</span></p>
+    </div>
+  </div>
+
+  <script src="./resource/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    $("#hardcore").on('click', function () {
+      games()
+      $(this).addClass("hide")
+      $("#softcore").addClass("hide")
+      $('#game').css("background-color", 'rgb(41, 41, 41)')
+    })
+
+    $("#softcore").on('click', function () {
+      game1()
+      $(this).addClass("hide")
+      $("#hardcore").addClass("hide")
+    })
+
+    let level = 4
+
+    const games = () => {
+
+      $('#ts').text(3)
+
+      setTimeout(() => {
+        $('#ts').text(2)
+      }, 1000);
+
+      setTimeout(() => {
+        $('#ts').text(1)
+      }, 2000);
+
+      setTimeout(() => {
+        $("#show").addClass("hide")
+        for (let i = 0; i < 15 - level; i++) {
+          let val = Math.round(Math.random() * 25) + 65
+          let bs = Math.round(Math.random()) * 32
+          $('#password').append(
+            `<input type="button" value="${String.fromCharCode(val + bs)}" class="pw">`
+          )
+          $('#view').append(
+            `<div class="box"><span style="visibility: hidden;">${String.fromCharCode(val + bs)}</span></div>`
+          )
+        }
+
+        for (let i = 0; i < level; i++) {
+          let val = Math.round(Math.random() * 25) + 65
+          let bs = Math.round(Math.random()) * 32
+          $('#password').append(
+            `<input type="button" value="${String.fromCharCode(val + bs)}" class="pw" id="c${i}">`
+          )
+          $('#view').append(
+            `<div class="box"><p id="b${i}" style="visibility: hidden;">${i + 1}</p></div>`
+          )
+
+          $("#hint").text($("#hint").text() + `${String.fromCharCode(val + bs)}`)
+        }
+
+        for (let i = 0; i < 15; i++) {
+          const target = Math.round(Math.random() * 15)
+          const target2 = Math.round(Math.random() * 15)
+
+          $('.pw').eq(target).insertAfter($('.pw').eq(i))
+          $('.box').eq(target2).insertAfter($('.box').eq(i))
+        }
+        $(".pw").on('click', function () {
+          $("#pw").text($("#pw").text() + $(this).val())
+        })
+
+        $("#clear").on('click', function () {
+          $("#pw").text("")
+        })
+
+        setTimeout(() => {
+          $(".box").addClass("spin")
+        }, 100);
+
+        setTimeout(() => {
+          $('.box').find($("p")).attr("style", "visibility: visible;")
+        }, 300);
+
+        setTimeout(() => {
+          $(".box").removeClass("spin")
+        }, 400 * level);
+
+        setTimeout(() => {
+          $('.box').find($("p")).attr("style", "visibility: hidden;")
+        }, 400 * level + 50);
+
+        setTimeout(() => {
+          $(".box").addClass("spin")
+        }, 400 * level + 400);
+
+        setTimeout(() => {
+          for (let i = 0; i < level; i++) {
+            $(`#b${i}`).text($(`#c${i}`).val())
+          }
+          $('.box').find($("p")).attr("style", "visibility: visible;")
+          $('.box').find($("span")).attr("style", "visibility: visible;")
+        }, 400 * level + 600);
+
+        setTimeout(() => {
+          $(".box").removeClass("spin")
+        }, 800 * level + 1900);
+
+        setTimeout(() => {
+          $('.box').find($("p")).attr("style", "visibility: hidden;")
+          $('.box').find($("span")).attr("style", "visibility: hidden;")
+        }, 800 * level + 1950);
+
+      }, 3000);
+
+      let ss = 0
+
+      $("#check").on('click', function () {
+        if ($("#pw").text() === $("#hint").text() && level === 15) {
+          Swal.fire({
+            title: '你是鬼吧? 不跟你玩了啦...',
+            width: 600,
+            padding: '3em',
+            background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
+            backdrop: `
+rgba(0,0,123,0.4)
+url("https://sweetalert2.github.io/images/nyan-cat.gif")
+left top
+no-repeat
+`
+          })
+        } else if ($("#pw").text() === $("#hint").text()) {
+          Swal.fire({
+            title: '猜對囉，運氣不錯嘛',
+            text: "是否繼續挑戰?",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: '再來啊!',
+            cancelButtonText: '不要，我怕了',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              ss = 0
+              $("#num").text(ss)
+              level++
+              $("#show").removeClass("hide")
+              $('.pw').remove()
+              $('.box').remove()
+              $("#hint").text("")
+              $("#pw").text("")
+              games()
+            }
+          })
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: '恭喜答錯',
+            text: '我看你完全是不懂哦?',
+            animation: false,
+          })
+          ss++
+          $("#num").text(ss)
+          $("#pw").text("")
+        }
+      })
+
+      $(".home").on('click', function () {
+        $(".home").addClass("hide")
+
+        setTimeout(function () {
+          $(".home").removeClass("hide")
+        }, 100);
+
+      })
+    }
+
+    const game1 = () => {
+
+      $('#ts').text(3)
+
+      setTimeout(() => {
+        $('#ts').text(2)
+      }, 1000);
+
+      setTimeout(() => {
+        $('#ts').text(1)
+      }, 2000);
+
+      setTimeout(() => {
+        $("#show").addClass("hide")
+        for (let i = 0; i < 15 - level; i++) {
+          let val = Math.round(Math.random() * 25) + 65
+          $('#password').append(
+            `<input type="button" value="${String.fromCharCode(val)}" class="pw">`
+          )
+          $('#view').append(
+            `<div class="box"><span style="visibility: hidden;">${String.fromCharCode(val)}</span></div>`
+          )
+        }
+
+        for (let i = 0; i < level; i++) {
+          let val = Math.round(Math.random() * 25) + 65
+          $('#password').append(
+            `<input type="button" value="${String.fromCharCode(val)}" class="pw" id="c${i}">`
+          )
+          $('#view').append(
+            `<div class="box"><p id="b${i}" style="visibility: hidden;">${i + 1}</p></div>`
+          )
+
+          $("#hint").text($("#hint").text() + `${String.fromCharCode(val)}`)
+        }
+
+        for (let i = 0; i < 15; i++) {
+          const target = Math.round(Math.random() * 15)
+          const target2 = Math.round(Math.random() * 15)
+
+          $('.pw').eq(target).insertAfter($('.pw').eq(i))
+          $('.box').eq(target2).insertAfter($('.box').eq(i))
+        }
+        $(".pw").on('click', function () {
+          $("#pw").text($("#pw").text() + $(this).val())
+        })
+
+        $("#clear").on('click', function () {
+          $("#pw").text("")
+        })
+
+        setTimeout(() => {
+          $(".box").addClass("spin")
+        }, 100);
+
+        setTimeout(() => {
+          $('.box').find($("p")).attr("style", "visibility: visible;")
+        }, 300);
+
+        setTimeout(() => {
+          $(".box").removeClass("spin")
+        }, 400 * level);
+
+        setTimeout(() => {
+          $('.box').find($("p")).attr("style", "visibility: hidden;")
+        }, 400 * level + 50);
+
+        setTimeout(() => {
+          $(".box").addClass("spin")
+        }, 400 * level + 400);
+
+        setTimeout(() => {
+          for (let i = 0; i < level; i++) {
+            $(`#b${i}`).text($(`#c${i}`).val())
+          }
+          $('.box').find($("p")).attr("style", "visibility: visible;")
+          $('.box').find($("span")).attr("style", "visibility: visible;")
+        }, 400 * level + 600);
+
+        setTimeout(() => {
+          $(".box").removeClass("spin")
+        }, 800 * level + 1900);
+
+        setTimeout(() => {
+          $('.box').find($("p")).attr("style", "visibility: hidden;")
+          $('.box').find($("span")).attr("style", "visibility: hidden;")
+        }, 800 * level + 1950);
+
+      }, 3000);
+
+      let ss = 0
+
+      $("#check").on('click', function () {
+        if ($("#pw").text() === $("#hint").text() && level === 15) {
+          Swal.fire({
+            title: '有點東西哦，試試看困難模式吧',
+            width: 600,
+            padding: '3em',
+            background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
+            backdrop: `
+rgba(0,0,123,0.4)
+url("https://sweetalert2.github.io/images/nyan-cat.gif")
+left top
+no-repeat
+`
+          })
+        } else if ($("#pw").text() === $("#hint").text()) {
+          Swal.fire({
+            title: '恭喜答對!',
+            text: "是否繼續挑戰?",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: '再來!',
+            cancelButtonText: '我想先休息',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+              ss = 0
+              $("#num").text(ss)
+              level++
+              $("#show").removeClass("hide")
+              $('.pw').remove()
+              $('.box').remove()
+              $("#hint").text("")
+              $("#pw").text("")
+              game1()
+            }
+          })
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: '答錯囉',
+            text: '再想想看吧',
+            animation: false,
+          })
+          ss++
+          $("#num").text(ss)
+          $("#pw").text("")
+        }
+      })
+
+      $(".home").on('click', function () {
+        $(".home").addClass("hide")
+
+        setTimeout(function () {
+          $(".home").removeClass("hide")
+        }, 100);
+
+      })
+    }
+
+
+
+  </script>
+</body>
+
+</html>
