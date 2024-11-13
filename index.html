@@ -245,6 +245,19 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
+    Swal.fire({
+        title: '記下數字<br>依照順序選出同位置的字母',
+        width: 600,
+        padding: '3em',
+        background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
+        backdrop: `
+rgba(0,0,123,0.4)
+url("https://sweetalert2.github.io/images/nyan-cat.gif")
+left top
+no-repeat
+`
+    });
+
     $("#hardcore").on('click', function () {
       games()
       $(this).addClass("hide")
@@ -357,7 +370,7 @@
       $("#check").on('click', function () {
         if ($("#pw").text() === $("#hint").text() && level === 15) {
           Swal.fire({
-            title: '你是鬼吧? 不跟你玩了啦...',
+            title: '你有點東西啊...',
             width: 600,
             padding: '3em',
             background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
@@ -370,7 +383,7 @@ no-repeat
           })
         } else if ($("#pw").text() === $("#hint").text()) {
           Swal.fire({
-            title: '猜對囉，運氣不錯嘛',
+            title: '猜對囉，運氣不錯',
             text: "是否繼續挑戰?",
             icon: 'success',
             showCancelButton: true,
@@ -390,7 +403,6 @@ no-repeat
               games()
             }
           })
-
         } else {
           Swal.fire({
             icon: 'error',
@@ -565,9 +577,6 @@ no-repeat
 
       })
     }
-
-
-
   </script>
 </body>
 
